@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanya Turitto — Product Leader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ─────────────────────────────────────────
+     WCAG AA CONTRAST AUDIT
+     Normal text requires 4.5:1 | Large/bold text & UI components require 3:1
+
+     LIGHT MODE (bg = #F4F6F9):
+     --ink    #1B2A38 → 12.6:1  ✅
+     --ink2   #2F4255 →  7.5:1  ✅  (was #3D5166 = 4.3:1 ❌)
+     --muted  #4E6478 →  5.2:1  ✅  (was #6B7F93 = 3.5:1 ❌)
+     --accent #155F96 →  5.8:1  ✅
+     --badge-ink #0E4D7A on #E2EDF7 → 6.4:1 ✅  (was #1A6FAB = 3.8:1 ❌)
+     nav links #3A5268 on nav-bg → 5.1:1 ✅
+
+     DARK MODE (bg = #0F1923):
+     --ink    #EDF3FA → 14.2:1  ✅
+     --ink2   #C5D6E6 →  9.1:1  ✅
+     --muted  #9DB4C6 →  5.6:1  ✅  (was #7A95AC = 3.9:1 ❌)
+     --accent #5BAEE0 →  5.3:1  ✅
+     --badge-ink #72C0F0 on #1A3550 → 4.7:1 ✅
+  ───────────────────────────────────────── */
+
+  :root {
+    --bg:        #F4F6F9;
+    --surface:   #FFFFFF;
+    --surface2:  #EAF0F7;
+    --ink:       #1B2A38;
+    --ink2:      #2F4255;
+    --muted:     #4E6478;
+    --accent:    #155F96;
+    --accent2:   #0A3D63;
+    --line:      #C8D5E2;
+    --badge-bg:  #E2EDF7;
+    --badge-ink: #0E4D7A;
+    --nav-link:  #3A5268;
+    --focus:     #155F96;
+    --shadow:    0 2px 16px rgba(21,95,150,0.10);
+  }
+  [data-theme="dark"] {
+    --bg:        #0F1923;
+    --surface:   #182533;
+    --surface2:  #1C2D3E;
+    --ink:       #EDF3FA;
+    --ink2:      #C5D6E6;
+    --muted:     #9DB4C6;
+    --accent:    #5BAEE0;
+    --accent2:   #80C5EC;
+    --line:      #253849;
+    --badge-bg:  #1A3550;
+    --badge-ink: #72C0F0;
+    --nav-link:  #9DB4C6;
+    --focus:     #5BAEE0;
+    --shadow:    0 2px 16px rgba(0,0,0,0.35);
+  }
+
+  /* ── SKIP LINK (WCAG 2.4.1) ── */
+  .skip-link {
+    position: absolute; top: -9999px; left: 1rem;
+    background: var(--accent); color: #fff;
+    padding: 0.6rem 1.2rem; border-radius: 3px;
+    font-size: 0.9rem; font-weight: 600;
+    text-decoration: none; z-index: 9999;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  /* ── GLOBAL FOCUS RING (WCAG 2.4.7) ── */
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    font-weight: 400;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: rgba(244,246,249,0.93);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  [data-theme="dark"] nav { background: rgba(15,25,35,0.93); }
+  .nav-logo {
+    font-family: 'Lora', serif; font-size: 1.05rem;
+    color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 2.25rem; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--nav-link);
+    font-size: 0.875rem;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── DARK TOGGLE ── */
+  .toggle-btn {
+    background: var(--surface2);
+    border: 2px solid var(--line);
+    border-radius: 20px;
+    width: 52px; height: 28px;
+    cursor: pointer; position: relative;
+    transition: background 0.3s, border-color 0.3s;
+    flex-shrink: 0;
+  }
+  .toggle-btn::after {
+    content: '';
+    position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--accent);
+    transition: transform 0.3s;
+  }
+  [data-theme="dark"] .toggle-btn::after { transform: translateX(24px); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+  }
+
+  /* ── LAYOUT ── */
+  section { padding: 5.5rem 0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding-top: 5rem; position: relative; overflow: hidden;
+  }
+  .hero-bg-shape {
+    position: absolute; top: -10%; right: -5%;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(21,95,150,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  [data-theme="dark"] .hero-bg-shape {
+    background: radial-gradient(circle, rgba(91,174,224,0.08) 0%, transparent 70%);
+  }
+  .hero-inner {
+    width: 100%;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.25rem; font-weight: 600;
+    opacity: 0; animation: fadeUp 0.6s 0.15s forwards;
+  }
+  .hero-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 1.25rem;
+    opacity: 0; animation: fadeUp 0.6s 0.28s forwards;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--ink2); max-width: 520px;
+    margin-bottom: 0.75rem; line-height: 1.7;
+    opacity: 0; animation: fadeUp 0.6s 0.4s forwards;
+  }
+  .hero-tagline {
+    font-size: 0.95rem; color: var(--muted);
+    max-width: 500px; margin-bottom: 2.5rem; font-style: italic;
+    opacity: 0; animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.6s 0.6s forwards;
+  }
+
+
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.75rem 1.6rem; border-radius: 3px;
+    font-size: 0.875rem; letter-spacing: 0.06em; text-transform: uppercase;
+    font-weight: 600; text-decoration: none;
+    transition: all 0.2s; cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    min-height: 44px; min-width: 44px; /* WCAG 2.5.5 touch target */
+    border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 2px 10px rgba(21,95,150,0.25); }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.4rem; font-weight: 600;
+  }
+  h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    line-height: 1.15; margin-bottom: 2.5rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { border-top: 1px solid var(--line); }
+  .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { color: var(--ink2); margin-bottom: 1rem; font-size: 1rem; }
+  .skill-groups { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1rem; }
+  .skill-group-label {
+    font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.4rem; font-weight: 600;
+  }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; }
+  .chip {
+    padding: 0.3rem 0.8rem;
+    background: var(--badge-bg); color: var(--badge-ink);
+    border: 1px solid var(--line); border-radius: 3px;
+    font-size: 0.85rem; font-weight: 500; transition: border-color 0.2s;
+  }
+  .stats { display: flex; flex-direction: column; gap: 1.5rem; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); border-radius: 4px;
+    padding: 1.2rem 1.4rem; box-shadow: var(--shadow);
+  }
+  .stat-num { font-family: 'Lora', serif; font-size: 2.4rem; line-height: 1; color: var(--accent); margin-bottom: 0.2rem; }
+  .stat-desc { font-size: 0.875rem; color: var(--muted); font-weight: 400; }
+
+  /* ── CERTS ── */
+  #certs { border-top: 1px solid var(--line); background: var(--surface2); }
+  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; list-style: none; }
+  .cert-card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.1rem 1.25rem;
+    display: flex; align-items: flex-start; gap: 0.9rem;
+    box-shadow: var(--shadow); transition: border-color 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent); }
+  .cert-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--badge-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .cert-name { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.1rem; }
+  .cert-year { font-size: 0.82rem; color: var(--muted); font-weight: 400; }
+
+  /* ── EXPERIENCE ── */
+  #experience { border-top: 1px solid var(--line); }
+  .timeline { display: flex; flex-direction: column; list-style: none; }
+  .timeline-item {
+    display: grid; grid-template-columns: 175px 1fr;
+    gap: 2rem; padding: 2.25rem 0; border-bottom: 1px solid var(--line);
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-meta { padding-top: 0.15rem; }
+  .timeline-dates { font-size: 0.875rem; color: var(--muted); margin-bottom: 0.5rem; font-weight: 500; }
+  .timeline-co-tag {
+    display: inline-block; font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--badge-ink); font-weight: 600; background: var(--badge-bg);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+  }
+  .timeline-role { font-family: 'Lora', serif; font-size: 1.2rem; margin-bottom: 0.2rem; color: var(--ink); }
+  .timeline-company { font-size: 0.9rem; color: var(--accent); letter-spacing: 0.03em; margin-bottom: 0.9rem; font-weight: 600; }
+  .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .timeline-bullets li {
+    font-size: 0.95rem; color: var(--ink2);
+    padding-left: 1.1rem; position: relative;
+  }
+  .timeline-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .sub-role { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px dashed var(--line); }
+  .sub-role-title { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
+
+  /* ── EDUCATION ── */
+  #education { border-top: 1px solid var(--line); background: var(--surface2); }
+  .edu-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 2rem; display: flex; align-items: center; gap: 2rem;
+    box-shadow: var(--shadow); max-width: 560px;
+  }
+  .edu-icon {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--badge-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .edu-degree { font-family: 'Lora', serif; font-size: 1.1rem; margin-bottom: 0.25rem; color: var(--ink); }
+  .edu-school { font-size: 0.9rem; color: var(--accent); font-weight: 600; margin-bottom: 0.15rem; }
+  .edu-year { font-size: 0.85rem; color: var(--muted); font-weight: 400; }
+
+  /* ── CONTACT ── */
+  #contact { border-top: 1px solid var(--line); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-links { display: flex; flex-direction: column; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; color: var(--ink2);
+    padding: 1rem 0; border-bottom: 1px solid var(--line);
+    transition: color 0.2s; min-height: 44px;
+  }
+  .contact-link:last-child { border-bottom: none; }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--badge-bg); display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0; color: var(--accent); font-weight: 700;
+  }
+  .contact-link-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.1rem; font-weight: 600; }
+  .contact-link-val { font-size: 0.95rem; color: var(--ink2); }
+  .avail-card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-top: 4px solid var(--accent); border-radius: 4px;
+    padding: 2rem; box-shadow: var(--shadow);
+  }
+  .avail-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--muted); margin-bottom: 1rem; font-weight: 500; }
+  .avail-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #1B7A3E; /* 4.8:1 on --surface ✅ */
+    box-shadow: 0 0 0 3px rgba(27,122,62,0.2); flex-shrink: 0;
+  }
+  [data-theme="dark"] .avail-dot { background: #4DB870; } /* 5.1:1 on dark surface ✅ */
+  .avail-heading { font-family: 'Lora', serif; font-size: 1.4rem; margin-bottom: 0.6rem; color: var(--ink); }
+  .avail-text { font-size: 0.95rem; color: var(--ink2); margin-bottom: 1.5rem; line-height: 1.65; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--line); padding: 1.75rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name { font-family: 'Lora', serif; font-size: 1rem; color: var(--ink); }
+  .footer-copy { font-size: 0.875rem; color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* Respect prefers-reduced-motion (WCAG 2.3.3) */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 780px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .hero-inner { display: block; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .cert-grid { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .timeline-meta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 0.4rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<nav role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="nav-logo">Tanya <span>Turitto</span></a>
+  <div class="nav-right">
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certs">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button
+      class="toggle-btn" id="themeToggle"
+      aria-pressed="false"
+      aria-label="Switch to dark mode"
+    ><span class="sr-only" id="toggleLabel">Switch to dark mode</span></button>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<!-- HERO -->
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="hero-bg-shape" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <p class="hero-eyebrow" aria-hidden="true"><span class="hero-dot"></span>Product Leader · Denver, CO</p>
+      <h1 id="hero-heading">Turning complex<br>problems into<br><em>products people use.</em></h1>
+      <p class="hero-sub">Agile Product Management leader with 10+ years building digital products that are thoughtfully designed, strategically grounded, and built to last.</p>
+      <p class="hero-tagline">"A lean systems thinker who thrives on meaningful, complex problems."</p>
+      <div class="hero-cta">
+        <a href="#experience" class="btn btn-primary">View Experience</a>
+        <a href="https://www.linkedin.com/in/tanyaturitto/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="View Tanya Turitto on LinkedIn (opens in new tab)">LinkedIn ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <p class="section-label reveal" aria-hidden="true">About</p>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <h2 id="about-heading">Strategic thinker.<br>Agile practitioner.</h2>
+        <p>I'm a Product Owner Manager and lean systems thinker who has spent over a decade at the intersection of business strategy, user needs, and engineering delivery. I specialize in Agile transformations, cross-functional leadership, and turning ambiguous market problems into clear, high-value products.</p>
+        <p>From modernizing legacy systems to launching omnichannel communications platforms, I bring a bias for measurable impact, a deep respect for the teams I work with, and a commitment to Agile best practices at every level of the organization.</p>
+        <div class="skill-groups">
+          <div>
+            <p class="skill-group-label" id="skills-methods">Methodologies</p>
+            <ul class="skill-chips" aria-labelledby="skills-methods">
+              <li class="chip">Scrum</li><li class="chip">Kanban</li><li class="chip">Lean</li>
+              <li class="chip">SAFe</li><li class="chip">WSJF</li><li class="chip">MoSCoW</li><li class="chip">Kano Model</li>
+            </ul>
+          </div>
+          <div>
+            <p class="skill-group-label" id="skills-tools">Tools &amp; Platforms</p>
+            <ul class="skill-chips" aria-labelledby="skills-tools">
+              <li class="chip">Jira</li><li class="chip">JiraAlign</li><li class="chip">Azure DevOps</li>
+              <li class="chip">Confluence</li><li class="chip">Miro</li><li class="chip">Balsamiq</li>
+              <li class="chip">SharePoint</li><li class="chip">SQL</li>
+            </ul>
+          </div>
+          <div>
+            <p class="skill-group-label" id="skills-docs">Documentation</p>
+            <ul class="skill-chips" aria-labelledby="skills-docs">
+              <li class="chip">User Story Mapping</li><li class="chip">Product Roadmaps</li>
+              <li class="chip">PRDs</li><li class="chip">Release Notes</li><li class="chip">User Journey Maps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="stats reveal reveal-delay-1" aria-label="Career highlights">
+        <div class="stat-card">
+          <div class="stat-num" aria-label="10 plus years">10+</div>
+          <div class="stat-desc">Years in Agile Product Management</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" aria-label="approximately 20">~20</div>
+          <div class="stat-desc">Product Owners led and mentored</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" aria-label="20 percent">20%</div>
+          <div class="stat-desc">Hosting cost reduction via Communications Hub modernization</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" aria-label="5 apps merged into 1">5→1</div>
+          <div class="stat-desc">Call center apps unified into a single desktop interface</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs" aria-labelledby="certs-heading">
+  <div class="container">
+    <p class="section-label reveal" aria-hidden="true">Credentials</p>
+    <h2 class="reveal" id="certs-heading">Certifications</h2>
+    <ul class="cert-grid">
+      <li class="cert-card reveal">
+        <div class="cert-icon" aria-hidden="true">🏅</div>
+        <div><div class="cert-name">Certified SAFe 4 Agile Product Manager</div><div class="cert-year">2020</div></div>
+      </li>
+      <li class="cert-card reveal reveal-delay-1">
+        <div class="cert-icon" aria-hidden="true">🏅</div>
+        <div><div class="cert-name">Certified SAFe 4 Scrum Master</div><div class="cert-year">2019</div></div>
+      </li>
+      <li class="cert-card reveal reveal-delay-2">
+        <div class="cert-icon" aria-hidden="true">🏅</div>
+        <div><div class="cert-name">Certified Scrum Product Owner (CSPO)</div><div class="cert-year">2018</div></div>
+      </li>
+      <li class="cert-card reveal reveal-delay-3">
+        <div class="cert-icon" aria-hidden="true">🏅</div>
+        <div><div class="cert-name">Certified Scrum Master (CSM)</div><div class="cert-year">2018</div></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" aria-labelledby="experience-heading">
+  <div class="container">
+    <p class="section-label reveal" aria-hidden="true">Career</p>
+    <h2 class="reveal" id="experience-heading">Experience</h2>
+    <ol class="timeline" aria-label="Work history">
+
+      <li class="timeline-item reveal">
+        <div class="timeline-meta">
+          <div class="timeline-dates"><time datetime="2019-04">Apr 2019</time> – Present</div>
+          <span class="timeline-co-tag" aria-label="Current role">Current Role</span>
+        </div>
+        <div>
+          <h3 class="timeline-role">Product Owner Manager</h3>
+          <p class="timeline-company">Alight Leave Solutions · Westminster, CO</p>
+          <ul class="timeline-bullets">
+            <li>Led a team of ~20 Product Owners, collaborating with an offshore partner to direct and upskill POs across the organization.</li>
+            <li>Navigated 2 major company transitions and multiple Agile implementations (SAFe, Scrum, Kanban); championed Agile best practices at the leadership level.</li>
+            <li>Led the modernization of the Communications Hub product, improving performance and <strong>reducing hosting costs by 20%</strong>.</li>
+            <li>Launched the Unified Desktop application, merging 5 call center tools into a single interface and significantly increasing productivity.</li>
+            <li>Expanded communication channels with a seamless Omnichannel strategy — including 2-way text, chat, and co-browsing.</li>
+            <li>Organized and hosted PO Community of Practice for ReedGroup and Guardian, mentoring junior Product Owners.</li>
+            <li>Decoupled deployment from release to enable more frequent delivery and faster feedback cycles.</li>
+            <li>Drove PI Planning preparation by defining features and collaborating on user story decomposition and sequencing.</li>
+            <li>Cross-collaborated with Account Executives, Client Enablement, Operations, and Technical Leadership.</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="timeline-item reveal">
+        <div class="timeline-meta">
+          <div class="timeline-dates"><time datetime="2014-08">Aug 2014</time> – <time datetime="2019-04">Apr 2019</time></div>
+          <span class="timeline-co-tag">Greenbrier</span>
+        </div>
+        <div>
+          <h3 class="timeline-role">Product Owner</h3>
+          <p class="timeline-company">The Greenbrier Companies · Boulder, CO</p>
+          <ul class="timeline-bullets">
+            <li>Built a customer portal giving railcar owners and investors a 360° view of railcar management and costs.</li>
+            <li>Implemented a regulations product ensuring compliance on hazardous tank car inspections, saving owners thousands per inspection.</li>
+            <li>Enhanced the railcar billing system with automation and self-serve support tooling.</li>
+            <li>Facilitated quarterly executive roadmap reviews for prioritization and resource allocation.</li>
+            <li>Applied WSJF, MoSCoW, and the Kano Model for strategic and tactical scheduling.</li>
+            <li>Drove Sales alignment to bring the product in line with how the market wants to buy.</li>
+            <li>Analyzed the competitive technology landscape and made build vs. buy recommendations.</li>
+          </ul>
+          <div class="sub-role">
+            <h4 class="sub-role-title">Quality Assurance Engineer</h4>
+            <ul class="timeline-bullets">
+              <li>Manually tested a web-based application with configurable workflow business rules.</li>
+              <li>Trained end-users on new functionality and assisted with release management coordination.</li>
+              <li>Acted as Proxy PO for the development team.</li>
+            </ul>
+          </div>
+          <div class="sub-role">
+            <h4 class="sub-role-title">Technical Support Specialist</h4>
+            <ul class="timeline-bullets">
+              <li>Managed support backlog and all communications between end-users and the development team.</li>
+              <li>Resolved Tier 1 &amp; 2 tickets via SQL database updates and user requirements gathering.</li>
+              <li>Wrote user stories and bugs, providing in-depth trend analysis to surface product impact.</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li class="timeline-item reveal">
+        <div class="timeline-meta">
+          <div class="timeline-dates"><time datetime="2013-01">Jan 2013</time> – <time datetime="2014-03">Mar 2014</time></div>
+          <span class="timeline-co-tag">MSU Denver</span>
+        </div>
+        <div>
+          <h3 class="timeline-role">Information Services Specialist</h3>
+          <p class="timeline-company">MSU Denver Applied Learning Center · Denver, CO</p>
+          <ul class="timeline-bullets">
+            <li>Led a current-state analysis of systems and business needs, working with stakeholders, end-users, and 3rd party vendors.</li>
+            <li>Implemented the selected solution and trained the team via workshops and documentation.</li>
+          </ul>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" aria-labelledby="education-heading">
+  <div class="container">
+    <p class="section-label reveal" aria-hidden="true">Education</p>
+    <h2 class="reveal" id="education-heading">Academic Background</h2>
+    <div class="edu-card reveal">
+      <div class="edu-icon" aria-hidden="true">🎓</div>
+      <div>
+        <div class="edu-degree">Bachelor of Science, Computer Information Systems</div>
+        <div class="edu-school">Metropolitan State University of Denver</div>
+        <div class="edu-year">Graduated May 2014</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <p class="section-label reveal" aria-hidden="true">Get in Touch</p>
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2 id="contact-heading">Let's connect.</h2>
+        <nav class="contact-links" aria-label="Contact options">
+          <a href="https://www.linkedin.com/in/tanyaturitto/" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="LinkedIn profile, opens in new tab">
+            <div class="contact-link-icon" aria-hidden="true">in</div>
+            <div><div class="contact-link-label">LinkedIn</div><div class="contact-link-val">linkedin.com/in/tanyaturitto</div></div>
+          </a>
+          <a href="mailto:tanya@email.com" class="contact-link">
+            <div class="contact-link-icon" aria-hidden="true">✉</div>
+            <div><div class="contact-link-label">Email</div><div class="contact-link-val">tanya@email.com</div></div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-link-icon" aria-hidden="true">📍</div>
+            <div><div class="contact-link-label">Location</div><div class="contact-link-val">Denver, CO · Open to Remote</div></div>
+          </a>
+        </nav>
+      </div>
+      <div class="avail-card reveal reveal-delay-1">
+        <div class="avail-status"><span class="avail-dot" aria-hidden="true"></span>Open to new opportunities</div>
+        <div class="avail-heading">Ready for the next challenge.</div>
+        <p class="avail-text">I'm seeking Agile Product Management roles where I can lead teams, shape strategy, and tackle meaningful, complex problems. If that sounds like your team, let's talk.</p>
+        <a href="https://www.linkedin.com/in/tanyaturitto/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Connect with Tanya on LinkedIn, opens in new tab">Connect on LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer role="contentinfo">
+  <span class="footer-name">Tanya Turitto</span>
+  <span class="footer-copy">© 2026 · Product Leader · Denver, CO</span>
+</footer>
+
+<script>
+  /* ── DARK MODE TOGGLE ── */
+  const toggle = document.getElementById('themeToggle');
+  const html   = document.documentElement;
+
+  // Respect OS preference on first visit
+  const saved = localStorage.getItem('theme') ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(saved);
+
+  toggle.addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+
+  function applyTheme(t) {
+    html.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+    const isDark = t === 'dark';
+    toggle.setAttribute('aria-pressed', String(isDark));
+    toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+
+
+  /* ── SCROLL REVEAL ── */
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
