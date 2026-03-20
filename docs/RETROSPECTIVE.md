@@ -70,10 +70,14 @@
 | Time to build | ~1 week including documentation |
 | Total cost | $10.00 (domain registration) |
 | WCAG criteria passing | 7/7 AA criteria |
-| lighthouse score | Pending audit |
+| Lighthouse Performance | 100/100 |
+| Lighthouse Accessibility | 100/100 |
+| Lighthouse Best Practices | 77/100 (GA + GitHub Pages headers) |
+| Lighthouse SEO | 100/100 |
 | Lines of code | ~650 (single index.html) |
 | Documentation files | 4 (PRD, Infra, Flowchart, Retro) |
 | GitHub issues created | 18 |
+
 
 ---
 
