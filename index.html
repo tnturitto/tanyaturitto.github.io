@@ -721,6 +721,7 @@
 
 <!-- CONTACT -->
 <section id="contact" aria-labelledby="contact-heading">
+
   <div class="container">
     <p class="section-label reveal" aria-hidden="true">Get in Touch</p>
     <div class="contact-grid">
@@ -733,7 +734,7 @@
           </a>
           <a href="mailto:tanya@wisebuilder.me" class="contact-link">
             <div class="contact-link-icon" aria-hidden="true">✉</div>
-            <div><div class="contact-link-label">Email</div><div class="contact-link-val">tanya@wisebuilder.me.com</div></div>
+            <div><div class="contact-link-label">Email</div><div class="contact-link-val">tanya@wisebuilder.me</div></div>
           </a>
          <a href="https://www.notion.so/Wise-Builder-3299081a44ce808db216c6e856f99a6c" target="_blank" rel="noopener noreferrer" class="contact-link" aria-label="Notion case study, opens in new tab">
             <div class="contact-link-icon" aria-hidden="true">📓</div>
@@ -761,6 +762,27 @@
         <p class="avail-text">I'm seeking Agile Product Management roles where I can lead teams, shape strategy, and tackle meaningful, complex problems. If that sounds like your team, let's talk.</p>
         <a href="https://www.linkedin.com/in/tanyaturitto/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" aria-label="Connect with Tanya on LinkedIn, opens in new tab">Connect on LinkedIn →</a>
       </div>
+    </div>
+
+    <div class="contact-form-wrap reveal">
+      <h3 class="contact-form-heading">Send a message</h3>
+      <form action="https://formspree.io/f/mreyvqpw" method="POST" class="contact-form">
+        <div class="form-group">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="message" class="form-label">Message</label>
+          <textarea id="message" name="message" class="form-input form-textarea" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message →</button>
+      </form>
+    </div>
+
     </div>
   </div>
 </section>
@@ -794,9 +816,6 @@
     toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
   }
 
-
-
-  /* ── SCROLL REVEAL ── */
   /* ── SCROLL REVEAL ── */
   const observer = new IntersectionObserver(
     entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
